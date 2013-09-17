@@ -23,9 +23,14 @@ post '/sign_in_verify' do
   end
 end
 
+post '/sign_up' do
+  new_user = User.create(name: params[:name], email: params[:email], password: params[:password])
+  session[:user] = new_user.id 
+  redirect '/user_home'
+end
 
 get '/user_home' do
-  unless signed_in_user
+  if signed_in_user
     erb :user_home
   else
     "OOPs you are not logged in"
@@ -34,7 +39,7 @@ end
 
 helpers do
   def signed_in_user
-    session[:user].nil?
+    !session[:user].nil?
   end
 
   def login(username, password)
