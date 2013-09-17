@@ -4,9 +4,6 @@ class CreateUsers < ActiveRecord::Migration
       t.string :name
       t.timestamps
     end
-
-  User.create(name: "Juke")
-  User.create(name: "Daniel")
   end
 
   def down
