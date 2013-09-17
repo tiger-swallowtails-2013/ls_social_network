@@ -8,10 +8,7 @@ enable :sessions
 set :database, "sqlite3:///social_media.db"
 
 
-
-
 get '/' do
-  session[:user] ||= nil
   erb :sign_in
 end
 
