@@ -14,7 +14,7 @@ end
 
 
 post '/sign_in_verify' do
-  login(params[:usernanem, params[:password]])
+  login(params[:username], params[:password])
   
   if signed_in_user
     redirect '/user_home'
