@@ -25,23 +25,28 @@ end
 
 
 get '/user_home' do
-  unless signed_in_user
+  if signed_in_user
     erb :user_home
   else
     "OOPs you are not logged in"
   end
 end
 
+post '/logout' do
+  session[:user] = nil 
+  redirect '/'
+end
+
 helpers do
   def signed_in_user
-    session[:user].nil?
+    !session[:user].nil?
   end
 
   def login(username, password)
     user = User.find_by_name(username)
 
-    unless user.nil? && user.password != password
-      session[:user] = user.id
+    unless user.nil?
+      session[:user] = user.id if user.password == password
     end
   end
 end
