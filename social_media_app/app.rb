@@ -40,7 +40,7 @@ helpers do
   def login(username, password)
     user = User.find_by_name(username)
 
-    unless user.nil? && user.password != params[:password]
+    unless user.nil? && user.password != password
       session[:user] = user.id
     end
   end
