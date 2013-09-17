@@ -23,6 +23,11 @@ post '/sign_in_verify' do
   end
 end
 
+post '/sign_up' do
+  new_user = User.create(name: params[:name], email: params[:email], password: params[:password])
+  session[:user] = new_user.id 
+  redirect '/user_home'
+end
 
 get '/user_home' do
   if signed_in_user
