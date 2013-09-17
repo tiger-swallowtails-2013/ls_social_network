@@ -14,21 +14,34 @@ end
 
 
 post '/sign_in_verify' do
-  @user = User.find_by_name(params[:username])
+  login(params[:usernanem, params[:password]])
   
-  unless @user.nil? && @user.password != params[:password]
-    session[:user] = params[:username]
+  if signed_in_user
     redirect '/user_home'
+  else
+    redirect '/'
   end
-  redirect '/'
 end
 
 
 get '/user_home' do
-  unless session[:user].nil?
+  unless signed_in_user
     erb :user_home
   else
     "OOPs you are not logged in"
   end
 end
 
+helpers do
+  def signed_in_user
+    session[:user].nil?
+  end
+
+  def login(username, password)
+    user = User.find_by_name(username)
+
+    unless user.nil? && user.password != params[:password]
+      session[:user] = user.id
+    end
+  end
+end
