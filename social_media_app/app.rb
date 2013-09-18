@@ -30,6 +30,7 @@ post '/sign_up' do
 end
 
 get '/user_home' do
+  @user = User.find(session[:user])
   if signed_in_user
     erb :user_home
   else
@@ -40,6 +41,12 @@ end
 post '/logout' do
   session[:user] = nil 
   redirect '/'
+end
+
+post '/create_post' do
+  user = User.find(session[:user])
+  user.posts.create(content: params[:content])
+  redirect '/user_home'
 end
 
 helpers do

@@ -1,5 +1,18 @@
 Hello from user homepage
 
-  <form action="/logout" method="post">  
-    <input type="submit" value="Logout">  
-  </form> 
+<form action="/create_post" method="post">  
+    <textarea name="content" placeholder="Write something here"></textarea>   
+    <input type="submit" value="Post">  
+</form>  
+
+<ul>
+<% @user.posts.reverse.each do |post| %>
+
+  <li><%= "#{post.content} #{post.created_at.to_date}" %></li> 
+
+<% end %>
+</ul>
+
+<form action="/logout" method="post">  
+  <input type="submit" value="Logout">  
+</form> 
