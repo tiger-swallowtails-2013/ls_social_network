@@ -7,5 +7,10 @@ gem "activerecord"
 gem "sinatra-activerecord"
 gem 'shotgun'
 gem 'tux'
-gem 'rack'
+
+
+group :test do
+  gem 'rspec'
+  gem 'rack'
+end
 
