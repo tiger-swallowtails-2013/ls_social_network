@@ -50,6 +50,11 @@ post '/create_post' do
   redirect '/user_home'
 end
 
+get '/manually_test_relationship' do
+  #{}"#{User.first.relationships.followed_id}"
+  "#{User.first.followed_users.inspect}"
+end
+
 helpers do
   def signed_in_user
     !session[:user].nil?

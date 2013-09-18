@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130918172627) do
+ActiveRecord::Schema.define(version: 20130918220334) do
 
   create_table "posts", force: true do |t|
     t.integer  "user_id"
@@ -20,8 +20,8 @@ ActiveRecord::Schema.define(version: 20130918172627) do
   end
 
   create_table "relationships", force: true do |t|
-    t.integer  "created_by_user_id"
-    t.integer  "created_on_user_id"
+    t.integer  "follower_id"
+    t.integer  "followed_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
