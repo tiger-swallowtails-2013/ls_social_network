@@ -24,6 +24,11 @@ post '/sign_in_verify' do
   end
 end
 
+post '/find_people' do
+ found_friend = User.where(name: params[:name]).first
+ redirect "/user_home?friend_id=#{found_friend.id}" 
+end
+
 post '/sign_up' do
   new_user = User.create(name: params[:name], email: params[:email], password: params[:password])
   session[:user] = new_user.id
@@ -31,6 +36,10 @@ post '/sign_up' do
 end
 
 get '/user_home' do
+  if params[:friend_id]
+    @found_friend = User.find(params[:friend_id])
+  end
+
   @user = User.find(session[:user])
   if signed_in_user
     erb :user_home
