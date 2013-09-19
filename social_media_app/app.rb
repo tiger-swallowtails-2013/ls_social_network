@@ -61,7 +61,7 @@ end
 post '/friend_request' do
   a = User.find(session[:user]).followers 
   a << User.where(id: params[:friend_id]) 
-  "You're now following #{User.find(session[:user]).followers.map{|p| p.id}}"
+  "You've requested a friend! Their id is #{params[:friend_id]}!"
 end
 
 helpers do

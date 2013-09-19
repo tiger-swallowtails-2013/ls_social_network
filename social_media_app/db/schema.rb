@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20130918220334) do
   create_table "relationships", force: true do |t|
     t.integer  "follower_id"
     t.integer  "followed_id"
+    t.boolean  "confirmed",   default: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
