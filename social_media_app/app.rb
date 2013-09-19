@@ -25,27 +25,34 @@ post '/sign_in_verify' do
 end
 
 post '/find_people' do
- found_friend = User.where(name: params[:name]).first
- redirect "/user_home?friend_id=#{found_friend.id}" 
+ found_friend = User.where(name: params[:name]).map! { |friend| friend.id}
+ ids = found_friend.join(",")
+ redirect "/user_home?friend_ids=#{ids}" 
 end
 
 post '/sign_up' do
-  new_user = User.create(name: params[:name], email: params[:email], password: params[:password])
+  new_user = User.create(name: params[:name], email: params[:email], 
+                          password: params[:password])
   session[:user] = new_user.id
   redirect '/user_home'
 end
 
 get '/user_home' do
-  if params[:friend_id]
-    @found_friend = User.find(params[:friend_id])
-  end
 
   @user = User.find(session[:user])
+  
   if signed_in_user
+    if params[:friend_ids]
+      friends = params[:friend_ids].split(",")
+      @found_friends = friends.map {|id| User.find(id)} 
+    end
     erb :user_home
   else
     "OOPs you are not logged in"
   end
+
+  
+
 end
 
 post '/logout' do

@@ -4,9 +4,13 @@
     <input type="submit" value="Post">
 </form>
 
-  <% if @found_friend %>
-  <div><%= @found_friend.name %></div>
+<% if @found_friends %>
+  <% @found_friends.each do |friend| %>
+    <div><%= friend.name %></div>
   <% end %>
+<% end %>
+
+
 <h2>Welcome to <%= @user.name %>'s News Feed.</h2>
 
 <form action="/create_post" method="post">
