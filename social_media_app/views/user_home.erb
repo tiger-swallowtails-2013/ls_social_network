@@ -1,3 +1,16 @@
+<h3> Search for homies </h3>
+<form action="/find_people" method="post">
+    <textarea name="name" placeholder="Search..."></textarea>
+    <input type="submit" value="Post">
+</form>
+
+<% if @found_friends %>
+  <% @found_friends.each do |friend| %>
+    <div><%= friend.name %></div>
+  <% end %>
+<% end %>
+
+
 <h2>Welcome to <%= @user.name %>'s News Feed.</h2>
 
 <form action="/create_post" method="post">
@@ -8,7 +21,7 @@
 <ul>
 <% @user.posts.reverse.each do |post| %>
 
-  <li><%= "#{post.content} #{post.created_at.to_date}" %></li>
+  <%= "#{post.content} #{post.created_at.to_date}" %>
 
 <% end %>
 </ul>
