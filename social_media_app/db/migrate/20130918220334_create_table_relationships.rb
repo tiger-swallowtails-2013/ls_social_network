@@ -3,6 +3,7 @@ class CreateTableRelationships < ActiveRecord::Migration
     create_table :relationships do |t|
       t.integer :follower_id
       t.integer :followed_id
+      t.boolean :confirmed, default: false
       t.timestamps
     end
   end
