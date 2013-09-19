@@ -66,6 +66,16 @@ post '/create_post' do
   redirect '/user_home'
 end
 
+post '/confirm_friend' do
+  friend_id = User.where(:name => params[:friend_name]).each {|user| user.id }
+  friend_connection = Relationship.where(:follower_id => friend_id, :followed_id => session[:user])
+  friend_connection.each do |connection| 
+    connection.confirmed = true
+    connection.save
+  end
+  "Confirmed!"
+end
+
 get '/manually_test_relationship' do
   "#{User.first.followed_users.inspect}"
 end
@@ -75,7 +85,7 @@ get '/friend_request' do
 end
 
 post '/friend_request' do
-  a = User.find(session[:user]).followers 
+  a = User.find(session[:user]).followers
   a << User.where(id: params[:friend_id]) 
   "You've requested a friend! Their id is #{params[:friend_id]}!"
 end
