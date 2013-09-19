@@ -51,8 +51,17 @@ post '/create_post' do
 end
 
 get '/manually_test_relationship' do
-  #{}"#{User.first.relationships.followed_id}"
   "#{User.first.followed_users.inspect}"
+end
+
+get '/friend_request' do
+  erb :friend_request
+end
+
+post '/friend_request' do
+  a = User.find(session[:user]).followers 
+  a << User.where(id: params[:friend_id]) 
+  "You're now following #{User.find(session[:user]).followers.map{|p| p.id}}"
 end
 
 helpers do
