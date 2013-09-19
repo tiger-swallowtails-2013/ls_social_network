@@ -1,4 +1,17 @@
 <h2>Welcome to <%= @user.name %>'s News Feed.</h2>
+<center>Current Friend Requests</center>
+
+<% Relationship.all.each do |relationship| %>
+  <% if relationship.confirmed == false %> 
+    <% @friend_id = relationship.followed_id %>
+  <% end %>
+<% end %>
+
+<% User.all.each do |user| %>
+  <% if user.id == @friend_id %>
+  <%= user.name %>
+  <% end %>
+<%end%>
 
 <form action="/create_post" method="post">
     <textarea name="content" placeholder="Write something here"></textarea>
