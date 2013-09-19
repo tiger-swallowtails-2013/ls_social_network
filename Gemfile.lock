@@ -71,6 +71,7 @@ PLATFORMS
 DEPENDENCIES
   activerecord
   rack
+  rack-test
   rspec
   shotgun
   sinatra
