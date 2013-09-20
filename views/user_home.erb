@@ -16,8 +16,10 @@
 <center>Current Friend Requests</center>
 
 <% Relationship.all.each do |relationship| %>
-  <% if relationship.confirmed == false  && relationship.follower_id == session[:user]%> 
-      <% @friend_id = relationship.followed_id %>
+  <% if relationship.confirmed == false  && relationship.followed_id == session[:user]%> 
+    <% @friend_id = relationship.follower_id %>
+  <% elsif relationship.confirmed == false  && relationship.follower_id == session[:user] %> 
+    <% @friend_id = relationship.followed_id %>
   <% end %>
 <% end %>
 
