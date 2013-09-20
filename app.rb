@@ -6,7 +6,8 @@ require_relative 'models/relationship'
 
 enable :sessions
 
-set :database, "sqlite3:///social_media.db"
+# set :database, "sqlite3:///social_media.db"
+set :database, ENV["DATABASE_URL"]
 
 
 get '/' do
@@ -27,11 +28,11 @@ end
 post '/find_people' do
  found_friend = User.where(name: params[:name]).map! { |friend| friend.id}
  ids = found_friend.join(",")
- redirect "/user_home?friend_ids=#{ids}" 
+ redirect "/user_home?friend_ids=#{ids}"
 end
 
 post '/sign_up' do
-  new_user = User.create(name: params[:name], email: params[:email], 
+  new_user = User.create(name: params[:name], email: params[:email],
                           password: params[:password])
   session[:user] = new_user.id
   redirect '/user_home'
@@ -40,18 +41,18 @@ end
 get '/user_home' do
 
   @user = User.find(session[:user])
-  
+
   if signed_in_user
     if params[:friend_ids]
       friends = params[:friend_ids].split(",")
-      @found_friends = friends.map {|id| User.find(id)} 
+      @found_friends = friends.map {|id| User.find(id)}
     end
     erb :user_home
   else
     "OOPs you are not logged in"
   end
 
-  
+
 
 end
 
@@ -69,7 +70,7 @@ end
 post '/confirm_friend' do
   friend_id = User.where(:name => params[:friend_name]).each {|user| user.id }
   friend_connection = Relationship.where(:follower_id => friend_id, :followed_id => session[:user])
-  friend_connection.each do |connection| 
+  friend_connection.each do |connection|
     connection.confirmed = true
     connection.save
   end
@@ -86,7 +87,7 @@ end
 
 post '/friend_request' do
   a = User.find(session[:user]).followers
-  a << User.where(id: params[:friend_id]) 
+  a << User.where(id: params[:friend_id])
   "You've requested a friend! Their id is #{params[:friend_id]}!"
 end
 
