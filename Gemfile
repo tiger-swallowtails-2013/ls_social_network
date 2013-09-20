@@ -13,6 +13,5 @@ gem 'pg'
 group :test do
   gem 'rspec'
   gem 'rack'
-  gem "sqlite3"
 end
 
