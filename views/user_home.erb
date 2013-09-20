@@ -46,6 +46,23 @@
 <% end %>
 </ul>
 
+<center> Friend's news feed </center>
+<% Relationship.all.each do |relationship| %>
+<% if relationship.confirmed == true && (relationship.followed_id == session[:user] || relationship.follower_id == session[:user]) %>
+  <% friends_posts = Post.all.where(:user_id => relationship.follower_id) %>
+  <% friends_posts.map do |post| %> 
+  <hr>
+  <center> <%= post.user.name %> </center>
+  <center> <%= post.content %> </center>
+    <% end %>
+  <% friends_posts = Post.all.where(:user_id => relationship.followed_id) %>
+  <% friends_posts.map do |post| %> 
+  <hr>
+  <center> <%= post.user.name %> </center>
+  <center> <%= post.content %> </center>
+  <% end %>
+  <% end %>
+<% end %>
 
 <form action="/logout" method="post">
   <input type="submit" value="Logout">
