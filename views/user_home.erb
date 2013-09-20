@@ -6,7 +6,11 @@
 
 <% if @found_friends %>
   <% @found_friends.each do |friend| %>
-    <div><%= friend.name %></div>
+    <% Relationship.all.each do |relationship| %>
+      <% if relationship.confirmed == true && (relationship.followed_id == session[:user] || relationship.follower_id == session[:user]) && (relationship.followed_id == friend.id || relationship.follower_id == friend.id) %>
+          <div><%= friend.name %></div>
+      <% end %>
+    <% end %>
   <% end %>
 <% end %>
 
