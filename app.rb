@@ -69,8 +69,8 @@ end
 
 post '/confirm_friend' do
   friend_id = User.where(:name => params[:friend_name]).each {|user| user.id }
-  friend_connection = Relationship.where(:follower_id => friend_id, :followed_id => session[:user])
-  friend_connection.each do |connection|
+  friend_connection = Relationship.where(:followed_id => friend_id, :follower_id => session[:user])
+  friend_connection.each do |connection| 
     connection.confirmed = true
     connection.save
   end
@@ -89,6 +89,15 @@ post '/friend_request' do
   a = User.find(session[:user]).followers
   a << User.where(id: params[:friend_id])
   "You've requested a friend! Their id is #{params[:friend_id]}!"
+end
+
+get '/friends_feed' do
+  our_friends = Relationship.all.select do |relationship|
+    if relationship.confirmed == true  && relationship.followed_id == session[:user]
+    end
+  end
+  p our_friends
+    # friend_id.post
 end
 
 helpers do
