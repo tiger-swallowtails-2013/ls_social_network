@@ -2,21 +2,26 @@
 <html lang="en">
 <head>
   <meta charset="utf8">
-  <title>Social Network</title>
+  <title>The O.G. Network</title>
 <link href="/styles.css" rel="stylesheet">  </head>
 <body>
   <header>
-    <a id= "cornify" href="http://www.cornify.com" onclick="cornify_add();return false;"><img src="http://www.cornify.com/assets/cornify.gif" width="90" height="40" border="0" alt="Cornify" /></a><script type="text/javascript" src="http://www.cornify.com/js/cornify.js"></script>
 
-      <h1><a href="/">Social Network</a></h1>
+      <div id="og_header">The O.G.<br>Network</div>
+
   </header>
 
   <div id="main">
     <%= yield %>
   </div>
 
+  <br class="clear">
   <footer>
-    <p><small>A Lightning Snakes Production</small></p>
+    <form action="/logout" method="post">
+      <input type="submit" value="Logout">
+    </form>
+    <p><small>The OG homies</small></p>
+    <p><small>Daniel | Juke | Morgan | Raorao</small></p>
   </footer>
 </body>
 </html>

@@ -1,69 +1,74 @@
-<h3> Search for homies </h3>
-<form action="/find_people" method="post">
-    <textarea name="name" placeholder="Search..."></textarea>
-    <input type="submit" value="Post">
-</form>
+<div class="welcome">
+  <h2>Welcome <%= @user.name %></h2>
+</div>
 
-<% if @found_friends %>
-  <% @found_friends.each do |friend| %>
-    <div><%= friend.name %></div>
-  <% end %>
-<% end %>
-
-
-<h2>Welcome to <%= @user.name %>'s News Feed.</h2>
-<hr>
-<center>Current Friend Requests</center>
-
-<% Relationship.all.each do |relationship| %>
-  <% if relationship.confirmed == false  && relationship.follower_id == session[:user]%> 
-      <% @friend_id = relationship.followed_id %>
-  <% end %>
-<% end %>
-
-<% User.all.each do |user| %>
-  <% if user.id == @friend_id %>
-  <%= user.name %>
-  <% end %>
-<%end%>
-<form action="/confirm_friend" method="post">
-    <textarea name="friend_name" placeholder="Name of friend to confirm?"></textarea>
-    <input type="submit" value="Post">
-</form>
-<hr>
-<center> Share a post! </center>
-
-<form action="/create_post" method="post">
-    <textarea name="content" placeholder="Write something here"></textarea>
-    <input type="submit" value="Post">
-</form>
-
-<ul>
-<% @user.posts.reverse.each do |post| %>
-
-  <%= "#{post.content} #{post.created_at.to_date}" %>
-
-<% end %>
-</ul>
-
-<center> Friend's news feed </center>
-<% Relationship.all.each do |relationship| %>
-<% if relationship.confirmed == true && (relationship.followed_id == session[:user] || relationship.follower_id == session[:user]) %>
-  <% friends_posts = Post.all.where(:user_id => relationship.follower_id) %>
-  <% friends_posts.map do |post| %> 
-  <hr>
-  <center> <%= post.user.name %> </center>
-  <center> <%= post.content %> </center>
+<div class="sidebar">
+  <center>Current Friend Requests</center>
+  <br>
+    <% User.all.each do |user| %>
+    <% if user.id == @friend_id %>
+    <%= user.name %>
     <% end %>
-  <% friends_posts = Post.all.where(:user_id => relationship.followed_id) %>
-  <% friends_posts.map do |post| %> 
-  <hr>
-  <center> <%= post.user.name %> </center>
-  <center> <%= post.content %> </center>
-  <% end %>
-  <% end %>
-<% end %>
+  <%end%>
+  <form action="/confirm_friend" method="post">
+      <textarea name="friend_name" placeholder="Name of friend to confirm?"></textarea>
+      <input type="submit" value="Post">
+  </form>
 
-<form action="/logout" method="post">
-  <input type="submit" value="Logout">
-</form>
+  <% Relationship.all.each do |relationship| %>
+    <% if relationship.confirmed == false  && relationship.follower_id == session[:user]%> 
+        <% @friend_id = relationship.followed_id %>
+    <% end %>
+  <% end %>
+
+  Search for homies
+  <br>
+  <br>
+  <form action="/find_people" method="post">
+      <textarea name="name" placeholder="Search..."></textarea>
+      <input type="submit" value="Post">
+  </form>
+
+  <% if @found_friends %>
+    <% @found_friends.each do |friend| %>
+      <div><%= friend.name %></div>
+    <% end %>
+  <% end %>
+</div>
+
+<div class="newsfeed">
+
+
+  <center> Share a post! </center>
+
+  <form action="/create_post" method="post">
+      <textarea name="content" placeholder="Write something here"></textarea>
+      <input type="submit" value="Post">
+  </form>
+
+  <ul>
+  <% @user.posts.reverse.each do |post| %>
+
+    <%= "#{post.content} #{post.created_at.to_date}" %>
+
+  <% end %>
+  </ul>
+
+  <center> Friend's news feed </center>
+  <% Relationship.all.each do |relationship| %>
+  <% if relationship.confirmed == true && (relationship.followed_id == session[:user] || relationship.follower_id == session[:user]) %>
+    <% friends_posts = Post.all.where(:user_id => relationship.follower_id) %>
+    <% friends_posts.map do |post| %> 
+    <hr>
+    <center> <%= post.user.name %> </center>
+    <center> <%= post.content %> </center>
+      <% end %>
+    <% friends_posts = Post.all.where(:user_id => relationship.followed_id) %>
+    <% friends_posts.map do |post| %> 
+    <hr>
+    <center> <%= post.user.name %> </center>
+    <center> <%= post.content %> </center>
+    <% end %>
+    <% end %>
+  <% end %>
+</div>
