@@ -32,10 +32,14 @@ post '/find_people' do
 end
 
 post '/sign_up' do
-  new_user = User.create(name: params[:name], email: params[:email],
+  if !User.exists?(name: params[:name])
+    new_user = User.create(name: params[:name], email: params[:email],
                           password: params[:password])
-  session[:user] = new_user.id
-  redirect '/user_home'
+    session[:user] = new_user.id
+    redirect '/user_home'
+  else
+    "Username already in use.  Please select another username."
+  end
 end
 
 get '/user_home' do
