@@ -6,8 +6,8 @@ require_relative 'models/relationship'
 
 enable :sessions
 
-# set :database, "sqlite3:///social_media.db"
-set :database, ENV["DATABASE_URL"]
+
+set :database, ENV["DATABASE_URL"] ||= "postgresql://localhost/social_media"
 
 
 get '/' do
