@@ -32,10 +32,14 @@ post '/find_people' do
 end
 
 post '/sign_up' do
-  new_user = User.create(name: params[:name], email: params[:email],
+  if !User.exists?(name: params[:name])
+    new_user = User.create(name: params[:name], email: params[:email],
                           password: params[:password])
-  session[:user] = new_user.id
-  redirect '/user_home'
+    session[:user] = new_user.id
+    redirect '/user_home'
+  else
+    "Username already in use.  Please select another username."
+  end
 end
 
 get '/user_home' do
@@ -87,8 +91,8 @@ end
 
 post '/friend_request' do
   a = User.find(session[:user]).followers
-  a << User.where(id: params[:friend_id])
-  "You've requested a friend! Their id is #{params[:friend_id]}!"
+  a << User.where(name: params[:friend_name])
+  "You've requested a friend! Their name is #{params[:friend_name]}!"
 end
 
 get '/friends_feed' do

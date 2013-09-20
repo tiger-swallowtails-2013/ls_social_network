@@ -2,24 +2,31 @@
   <h2>Welcome <%= @user.name %></h2>
 </div>
 
+
+
+
+
 <div class="sidebar">
   <center>Current Friend Requests</center>
   <br>
-    <% User.all.each do |user| %>
-    <% if user.id == @friend_id %>
-    <%= user.name %>
-    <% end %>
-  <%end%>
+    <% Relationship.all.each do |relationship| %>
+      <% if relationship.confirmed == false  && relationship.followed_id == session[:user]%> 
+        <% @friend_id = relationship.follower_id %>
+      <% elsif relationship.confirmed == false  && relationship.follower_id == session[:user] %> 
+        <% @friend_id = relationship.followed_id %>
+      <% end %>
+      <% User.all.each do |user| %>
+        <% if user.id == @friend_id %>
+          <%= user.name %>
+        <% end %>
+      <%end%>
+    <%end%>
+
   <form action="/confirm_friend" method="post">
       <textarea name="friend_name" placeholder="Name of friend to confirm?"></textarea>
       <input type="submit" value="Post">
   </form>
 
-  <% Relationship.all.each do |relationship| %>
-    <% if relationship.confirmed == false  && relationship.follower_id == session[:user]%> 
-        <% @friend_id = relationship.followed_id %>
-    <% end %>
-  <% end %>
 
   Search for homies
   <br>
@@ -29,11 +36,15 @@
       <input type="submit" value="Post">
   </form>
 
-  <% if @found_friends %>
-    <% @found_friends.each do |friend| %>
-      <div><%= friend.name %></div>
+<% if @found_friends %>
+  <% @found_friends.each do |friend| %>
+    <% Relationship.all.each do |relationship| %>
+      <% if relationship.confirmed == true && (relationship.followed_id == session[:user] || relationship.follower_id == session[:user]) && (relationship.followed_id == friend.id || relationship.follower_id == friend.id) %>
+          <div><%= friend.name %></div>
+      <% end %>
     <% end %>
   <% end %>
+<% end %>
 </div>
 
 <div class="newsfeed">
